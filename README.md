@@ -1,0 +1,1 @@
+At this point I've just accepted that this repo is just me fiddling to get this set up as quickly as possibly for myself, and not to be used by anyone else as an actual template. I'll delete when I've finished fiddling, but I need to commit to github to actually test the pipeline out, so here we are.

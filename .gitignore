@@ -1,0 +1,17 @@
+# Python things
+.venv*
+__pycache__
+.pytest_cache
+.mypy_cache
+*.egg-info
+build
+.ruff_cache
+
+# VSCode things
+.vscode
+
+# Environment files
+.env*
+
+reference_pipeline.yaml
+.aws-sam*
