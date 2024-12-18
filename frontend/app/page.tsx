@@ -39,7 +39,7 @@ export default function Home() {
 
   return (
     <>
-      <div>An absolutely raw website</div>
+      <div>An absolutely raw website (but after the first commit!)</div>
       <div>Loading something from an api:</div>
       <div style={{ marginTop: "10px" }}>
         {loading ? <Spinner /> : <div>{apiData}</div>}
