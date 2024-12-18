@@ -15,3 +15,4 @@ build
 
 reference_pipeline.yaml
 .aws-sam*
+samconfig.toml
