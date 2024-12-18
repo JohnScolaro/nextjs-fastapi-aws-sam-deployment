@@ -85,4 +85,4 @@ jobs:
         env:
           AWS_REGION: ${{ secrets.AWS_REGION }}
         run: |
-          aws s3 sync frontend/out/ ${PROD_FRONTEND_BUCKET} --delete
+          aws s3 sync frontend/out/ s3://${PROD_FRONTEND_BUCKET} --delete
