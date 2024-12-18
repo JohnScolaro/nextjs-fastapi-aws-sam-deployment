@@ -10,8 +10,6 @@ build
 # VSCode things
 .vscode
 
-# Environment files
-.env*
 
 reference_pipeline.yaml
 .aws-sam*
