@@ -12,9 +12,10 @@ permissions:
 env:
   SAM_TEMPLATE: template.yaml
   STACK_NAME: nextjs-fastapi-aws-sam-stack
-  TESTING_CLOUDFORMATION_EXECUTION_ROLE: arn:aws:iam::018760403092:role/aws-sam-cli-managed-stage-CloudFormationExecutionRo-mWWs0KVTI38S
-  TESTING_ARTIFACTS_BUCKET: aws-sam-cli-managed-stage-pipeline-artifactsbucket-llmmbjkcgtah
-  TESTING_IMAGE_REPOSITORY: 018760403092.dkr.ecr.ap-southeast-2.amazonaws.com/aws-sam-cli-managed-stage-pipeline-resources-imagerepository-s33bt0toyc4v
+  PROD_CLOUDFORMATION_EXECUTION_ROLE: arn:aws:iam::018760403092:role/aws-sam-cli-managed-stage-CloudFormationExecutionRo-mWWs0KVTI38S
+  PROD_ARTIFACTS_BUCKET: aws-sam-cli-managed-stage-pipeline-artifactsbucket-llmmbjkcgtah
+  PROD_IMAGE_REPOSITORY: 018760403092.dkr.ecr.ap-southeast-2.amazonaws.com/aws-sam-cli-managed-stage-pipeline-resources-imagerepository-s33bt0toyc4v
+  PROD_REGION: ap-southeast-2
 
 jobs:
   deploy:
@@ -57,7 +58,7 @@ jobs:
 
       - name: Deploy to production account
         run: |
-          sam deploy --stack-name ${PROD_STACK_NAME} \
+          sam deploy --stack-name ${STACK_NAME} \
             --template packaged-prod.yaml \
             --capabilities CAPABILITY_IAM \
             --region ${PROD_REGION} \
