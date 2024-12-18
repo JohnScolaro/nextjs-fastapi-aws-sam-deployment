@@ -5,6 +5,10 @@ on:
     branches:
       - "master"
 
+permissions:
+  id-token: write # Required for OIDC authentication
+  contents: read # To allow access to repository contents
+
 env:
   SAM_TEMPLATE: template.yaml
   STACK_NAME: nextjs-fastapi-aws-sam-stack
