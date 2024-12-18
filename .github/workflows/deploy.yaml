@@ -16,6 +16,7 @@ env:
   PROD_ARTIFACTS_BUCKET: aws-sam-cli-managed-default-samclisourcebucket-wavfhz8jbkag
   PROD_IMAGE_REPOSITORY: 018760403092.dkr.ecr.ap-southeast-2.amazonaws.com/samapp7427b055/appfunction10acf256repo
   PROD_REGION: ap-southeast-2
+  PROD_FRONTEND_BUCKET: sam-app-frontendbucket-hh39pzlngdhh
 
 jobs:
   deploy:
@@ -84,4 +85,4 @@ jobs:
         env:
           AWS_REGION: ${{ secrets.AWS_REGION }}
         run: |
-          aws s3 sync frontend/build/ s3://your-frontend-bucket-name --delete
+          aws s3 sync frontend/out/ ${PROD_FRONTEND_BUCKET} --delete
