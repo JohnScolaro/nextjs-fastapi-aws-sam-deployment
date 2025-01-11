@@ -27,6 +27,20 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
+      - name: Create backend .env file
+        run: |
+          echo "PROTOCOL=${{ vars.PROTOCOL }}" >> backend/.env
+          echo "DOMAIN=${{ vars.DOMAIN }}" >> backend/.env
+          echo "FRONTEND_PORT=${{ vars.FRONTEND_PORT }}" >> backend/.env
+          echo "BACKEND_PORT=${{ vars.BACKEND_PORT }}" >> backend/.env
+          echo "ENVIRONMENT=${{ vars.ENVIRONMENT }}" >> backend/.env
+          echo "STRAVA_CLIENT_ID=${{ secrets.STRAVA_CLIENT_ID }}" >> backend/.env
+          echo "STRAVA_CLIENT_SECRET=${{ secrets.STRAVA_CLIENT_SECRET }}" >> backend/.env
+
+      - name: Create frontend .env file
+        run: |
+          echo "NEXT_PUBLIC_API_BASE_URL=${{ vars.NEXT_PUBLIC_API_BASE_URL }}" >> frontend/.env
+
       - name: Setup AWS SAM
         uses: aws-actions/setup-sam@v2
         with:
