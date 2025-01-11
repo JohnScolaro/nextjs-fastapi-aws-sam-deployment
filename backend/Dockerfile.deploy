@@ -2,6 +2,9 @@ FROM public.ecr.aws/lambda/python:3.13
 COPY . /home/backend
 WORKDIR /home/backend
 
+# Install system-level dependencies (These are needed for the pip install of numpy later)
+RUN dnf install -y gcc gcc-c++ make
+
 # Upgrade pip
 RUN pip install --upgrade pip
 
