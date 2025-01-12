@@ -89,6 +89,10 @@ Resources:
             AllowedMethods: [GET, HEAD, OPTIONS, PUT, PATCH, POST, DELETE]
             ForwardedValues:
               QueryString: true
+            Headers:
+              Forward: all
+            Cookies:
+              Forward: all
         Enabled: true
         DefaultRootObject: index.html
 
