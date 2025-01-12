@@ -55,7 +55,7 @@ function SideBarButtons(props: SidebarButtonsProps) {
       (error) => console.error("Error fetching tabs: ", error),
       router
     );
-  }, []);
+  }, [apiBaseUrl, router]);
 
   // Create the download_strava_data tab manually here.
   const download_strava_data_step = (

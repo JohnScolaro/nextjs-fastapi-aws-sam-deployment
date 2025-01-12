@@ -2,7 +2,7 @@
 
 import { HomeContext } from "./layout";
 import { Spinner } from "../components/spinner/spinner";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 
 export default function Page() {
   return (
@@ -17,6 +17,39 @@ export default function Page() {
 }
 
 function WelcomeCard() {
+  const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
+  useEffect(() => {
+    if (!apiUrl) {
+      console.error("API base URL is not defined");
+      return;
+    }
+
+    // Open a WebSocket connection to /api/ws
+    const ws = new WebSocket(`${apiUrl.replace(/^http/, "ws")}/api/ws`);
+
+    const sendRandomData = () => {
+      if (ws.readyState === WebSocket.OPEN) {
+        const randomData = {
+          timestamp: new Date().toISOString(),
+          value: Math.floor(Math.random() * 100),
+        };
+        ws.send(JSON.stringify(randomData));
+        console.log("Sent random data:", randomData);
+      }
+    };
+
+    // Send random data every 2 seconds
+    const intervalId = setInterval(sendRandomData, 2000);
+
+    // Clean up the WebSocket connection and interval on unmount
+    return () => {
+      clearInterval(intervalId);
+      ws.close();
+    };
+  }, [apiUrl]);
+
+
   return (
     <div className="bg-green-200 p-4 rounded-lg text-center">
       <div className="flex flex-col items-center">

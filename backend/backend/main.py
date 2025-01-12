@@ -3,7 +3,6 @@ from mangum import Mangum
 from fastapi.middleware.cors import CORSMiddleware
 import os
 import logging
-import sys
 import json
 from typing import Any
 from stravalib.model import SummaryActivity
@@ -43,15 +42,14 @@ import datetime as dt
 # Check if the app is running in development mode
 is_dev = os.getenv("ENVIRONMENT", "production") == "development"
 
-# Configure logging
-logging.basicConfig(
-    level=logging.DEBUG if is_dev else logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(message)s",
-    stream=sys.stdout,
-)
+# # Configure logging
+# logging.basicConfig(
+#     level=logging.DEBUG if is_dev else logging.INFO,
+#     format="%(asctime)s - %(levelname)s - %(message)s",
+#     stream=sys.stdout,
+# )
 
 logger = logging.getLogger(__name__)
-
 
 app = FastAPI(debug=True)
 handler = Mangum(app)
@@ -168,8 +166,7 @@ async def get_data_status(request: Request) -> Any:
             delete_athlete_data(athlete_id)
 
             # Trigger re-download
-            await trigger_user_data_download()
-
+            print("Help me 2")
             # Return message to say to continue polling.
             return DataStatusMessage(message="Downloading data", stop_polling=False)
 
@@ -184,7 +181,8 @@ async def get_data_status(request: Request) -> Any:
 
         if status is None:
             # We don't have any download scheduled, so just trigger a new download.
-            await trigger_user_data_download()
+            # await trigger_user_data_download(request.cookies)
+            print("Help me 1")
 
             # Return message to say to continue polling.
             return DataStatusMessage(message="Downloading data", stop_polling=False)
@@ -193,14 +191,16 @@ async def get_data_status(request: Request) -> Any:
             return DataStatusMessage(message=status, stop_polling=False)
 
 
-async def trigger_user_data_download():
+async def trigger_user_data_download(cookies):
     """
     Call this function to trigger the data download, and return instantly.
     """
     async with httpx.AsyncClient() as client:
         try:
             # Replace with the full URL when deployed (e.g., API Gateway URL)
-            response = await client.post(f"{get_backend_base_url()}/api/download_data")
+            response = await client.post(
+                f"{get_backend_base_url()}/api/download_data", cookies=cookies
+            )
             print(f"Triggered data download task: {response.status_code}")
         except Exception as e:
             print(f"Failed to data download task: {e}")
@@ -299,10 +299,16 @@ for tab in get_all_tabs():
     tab.generate_and_register_route(app, evm)
 
 
-# A test websocket endpoint
-@app.websocket("/api/ws")
+# The data status connection is a websocket
+@app.websocket(
+    "/api/data_status", dependencies=[Depends(unauthorized_if_no_session_token)]
+)
 async def websocket_endpoint(websocket: WebSocket):
+    session_token = websocket.cookies.get("session_token")
+    athlete_id = get_athlete_id_from_session_token(session_token)
     await websocket.accept()
+    print(athlete_id)
     while True:
         data = await websocket.receive_text()
+        print(data)
         await websocket.send_text(f"Message text was: {data}")

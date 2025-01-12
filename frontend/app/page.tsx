@@ -19,7 +19,7 @@ export default function Index() {
   return (
     <>
       <TopBarSplashPage />
-      <ScrollableContentContainer modalState={modalState}>
+      <ScrollableContentContainer>
         <SplashPage />
       </ScrollableContentContainer>
       <RateLimitExceededModal

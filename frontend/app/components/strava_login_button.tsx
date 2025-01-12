@@ -42,7 +42,7 @@ export default function StravaLoginButton() {
     better to do later.
     */
     const hostname = window.location.hostname;
-    var port = window.location.port;
+    let port = window.location.port;
 
     // For debugging:
     if (hostname == "localhost") {

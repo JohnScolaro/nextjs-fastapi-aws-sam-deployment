@@ -42,7 +42,7 @@ export default function PlotContainer({ dataURL }: PlotComponentProps) {
       },
       router
     );
-  }, [dataURL]);
+  }, [dataURL, router]);
 
   if (isLoading) {
     return (

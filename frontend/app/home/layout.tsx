@@ -22,8 +22,8 @@ export const HomeContext = createContext<HomeContextType>({
     message: "Data status unknown...",
     stop_polling: false,
   },
-  setDisabledSidebarSteps: (disabledSidebarSteps) => { },
-  setDataStatus: (dataStatus) => { },
+  setDisabledSidebarSteps: (disabledSidebarSteps) => { console.log(disabledSidebarSteps) },
+  setDataStatus: (dataStatus) => { console.log(dataStatus) },
 });
 
 export default function HomeLayout({ children }: { children: React.ReactNode }) {
@@ -47,8 +47,7 @@ export default function HomeLayout({ children }: { children: React.ReactNode }) 
     callback?: () => void
   ) {
     const apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-    var url = `${apiUrl}/api/data_status`;
-
+    const url = `${apiUrl}/api/data_status`;
 
     wrappedFetch(
       url,
@@ -64,7 +63,7 @@ export default function HomeLayout({ children }: { children: React.ReactNode }) 
           }
         }
       },
-      (err) => {
+      () => {
         console.log("oopsie, an error happened.");
       },
       router
