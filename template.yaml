@@ -87,12 +87,10 @@ Resources:
             MaxTTL: 0
             ViewerProtocolPolicy: https-only
             AllowedMethods: [GET, HEAD, OPTIONS, PUT, PATCH, POST, DELETE]
-            ForwardedValues:
-              QueryString: true
-              Headers:
-                - "*"
-              Cookies:
-                Forward: all
+            # Get this by running `aws cloudfront list-cache-policies`
+            CachePolicyId: "8c5e33e6-cacd-41df-965f-0f96de9d0983" # My custom policy to forward cookes
+            # Get this by running `aws cloudfront list-origin-request-policies`
+            OriginRequestPolicyId: "b689b0a8-53d0-40ab-baf2-68738e2966ac" # Managed-AllViewerExceptHostHeader
         Enabled: true
         DefaultRootObject: index.html
 
